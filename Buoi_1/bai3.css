@@ -1,0 +1,106 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+.container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bolder;
+}
+
+input[type = "number"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border-radius: 4px;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.result {
+    padding: 15px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fafafa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.result h2{
+    margin-bottom: 15px;
+}
+
+.result p {
+    margin: 10px 0;
+}
+
+.return-home {
+    top: 75%;
+    right: 10%;
+    position: fixed;
+    z-index: 100;
+}
+
+.return {
+    position: relative;
+    display: grid;
+    place-items: center;
+    text-align: center;
+}
+
+.return i {
+    position: relative;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    background-color: rgba(73, 72, 72, 0.3);
+    line-height: 5.8rem;
+    font-size: 1.5rem;
+    color: white;
+    z-index: 10;
+}
+
+.return::after {
+    position: absolute;
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 50%;
+    background-color: #33322c;
+    content: "";
+    z-index: 9;
+}

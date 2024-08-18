@@ -1,0 +1,36 @@
+p {
+    text-align: center;
+    font-size: 50px;
+}
+.return-home {
+    position: fixed;
+    right: 10%;
+    top: 75%;
+    z-index: 100;
+}
+.return {
+    position: relative;
+    text-align: center;
+    display: grid;
+    place-items: center;
+}
+.return i {
+    position: relative;
+    height: 6rem;
+    width: 6rem;
+    border-radius: 50%;
+    background-color: rgba(73, 72, 72, 0.3);
+    line-height: 5.8rem;
+    font-size: 1.5rem;
+    color: white;
+    z-index: 10;
+}
+.return::after {
+    position: absolute;
+    height: 3.75rem;
+    width: 3.75rem;
+    border-radius: 50%;
+    background-color: #33322c;
+    content: "";
+    z-index: 9;
+}
