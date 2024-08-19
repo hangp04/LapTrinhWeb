@@ -1,64 +1,68 @@
 <?php
-// Hàm cộng hai số
-function add($a, $b) {
+function cong ($a, $b){
     return $a + $b;
 }
 
-// Hàm trừ hai số
-function subtract($a, $b) {
+function tru ($a, $b){
     return $a - $b;
 }
 
-// Hàm nhân hai số
-function multiply($a, $b) {
+function nhan ($a, $b){
     return $a * $b;
 }
 
-// Hàm chia hai số
-function divide($a, $b) {
-    // Kiểm tra chia cho 0
-    if ($b == 0) {
-        return 'Không thể chia cho 0';
-    } else {
-        return $a / $b;
-    }
+function chia($a, $b){
+    return ($b == 0) ? "Không thể chia cho 0" : ($a / $b);
 }
 
-// Hàm kiểm tra số nguyên tố
-function isPrime($number) {
-    if ($number < 2) {
-        return false; // Số nhỏ hơn 2 không phải số nguyên tố
-    }
-    for ($i = 2; $i <= sqrt($number); $i++) {
-        if ($number % $i == 0) {
-            return false; // Nếu chia hết cho số khác ngoài 1 và chính nó thì không phải số nguyên tố
+function ktraSoNTo ($a) {
+    if ($a < 2) {
+        return false;
+    } else {
+        for ($i = 2; $i <= sqrt($a); $i++) {
+            if ($a % $i == 0) return false;
         }
     }
-    return true; // Số nguyên tố
+    return true;
 }
 
-// Hàm kiểm tra số chẵn
-function isEven($number) {
-    return $number % 2 == 0; // Số chẵn nếu chia hết cho 2
+function ktraChanLe ($a){
+    if ($a % 2 == 0) return true;
 }
 
-// Lấy dữ liệu từ form gửi lên
-$a = isset($_POST['a']) ? (int)$_POST['a'] : 0; // Nếu không có giá trị, mặc định là 0
-$b = isset($_POST['b']) ? (int)$_POST['b'] : 0; // Nếu không có giá trị, mặc định là 0
+// Khởi tạo biến
+$tong = $hieu = $tich = $thuong = '';
+$aSoNTo = $bSoNTo = $aSoChan = $bSoChan = false;
+$checkType = $numberToCheck = '';
 
-// Tính toán các phép toán
-$sum = add($a, $b); // Tổng
-$difference = subtract($a, $b); // Hiệu
-$product = multiply($a, $b); // Tích
-$quotient = divide($a, $b); // Thương
+// Xử lý phần tính toán
+if (isset($_POST['operation'])) {
+    $a = isset($_POST['a']) ? (int)$_POST['a'] : 0;
+    $b = isset($_POST['b']) ? (int)$_POST['b'] : 0;
+    $operation = isset($_POST['operation']) ? $_POST['operation'] : '';
 
-// Kiểm tra số nguyên tố
-$aIsPrime = isPrime($a); // Kiểm tra số nguyên tố cho $a
-$bIsPrime = isPrime($b); // Kiểm tra số nguyên tố cho $b
+    if ($operation == 'cong') {
+        $tong = cong($a, $b);
+    } elseif ($operation == 'tru') {
+        $hieu = tru($a, $b);
+    } elseif ($operation == 'nhan') {
+        $tich = nhan($a, $b);
+    } elseif ($operation == 'chia') {
+        $thuong = chia($a, $b);
+    }
+}
 
-// Kiểm tra số chẵn
-$aIsEven = isEven($a); // Kiểm tra số chẵn cho $a
-$bIsEven = isEven($b); // Kiểm tra số chẵn cho $b
+// Xử lý phần kiểm tra số
+if (isset($_POST['check'])) {
+    $numberToCheck = isset($_POST['number_to_check']) ? (int)$_POST['number_to_check'] : 0;
+    $checkType = isset($_POST['check_type']) ? $_POST['check_type'] : '';
+
+    if ($checkType == 'Chan_Le') {
+        $aSoChan = ktraChanLe($numberToCheck);
+    } elseif ($checkType == 'soNTo') {
+        $aSoNTo = ktraSoNTo($numberToCheck);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,36 +75,72 @@ $bIsEven = isEven($b); // Kiểm tra số chẵn cho $b
     <link rel="stylesheet" href="../Buoi_1/bai3.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Bài 3: Xử lý các phép tính</h1>
-        
-        <!-- Form nhập liệu -->
+    <div class="container">        
+        <!-- Phần tính toán -->
         <form method="POST" action="">
+            <h2>Phép toán</h2>
             <label for="a">Số thứ nhất:</label>
-            <input type="number" id="a" name="a" value="<?php echo $a; ?>" required>
+            <input type="number" id="a" name="a" value="<?php echo isset($a) ? $a : ''; ?>" required>
             <label for="b">Số thứ hai:</label>
-            <input type="number" id="b" name="b" value="<?php echo $b; ?>" required>
+            <input type="number" id="b" name="b" value="<?php echo isset($b) ? $b : ''; ?>" required>
+            
+            <fieldset>
+                <legend>Chọn phép toán:</legend>
+                <input type="radio" id="cong" name="operation" value="cong" <?php echo isset($_POST['operation']) && $_POST['operation'] == 'cong' ? 'checked' : ''; ?>>
+                <label for="cong">Cộng</label><br>
+                <input type="radio" id="tru" name="operation" value="tru" <?php echo isset($_POST['operation']) && $_POST['operation'] == 'tru' ? 'checked' : ''; ?>>
+                <label for="tru">Trừ</label><br>
+                <input type="radio" id="nhan" name="operation" value="nhan" <?php echo isset($_POST['operation']) && $_POST['operation'] == 'nhan' ? 'checked' : ''; ?>>
+                <label for="nhan">Nhân</label><br>
+                <input type="radio" id="chia" name="operation" value="chia" <?php echo isset($_POST['operation']) && $_POST['operation'] == 'chia' ? 'checked' : ''; ?>>
+                <label for="chia">Chia</label>
+            </fieldset>
+            
             <button type="submit">Tính toán</button>
         </form>
         
         <div class="result">
-            <h2>Kết quả tính toán:</h2>
-            <p>Tổng của <?php echo $a; ?> và <?php echo $b; ?> là: <?php echo $sum; ?></p>
-            <p>Hiệu của <?php echo $a; ?> và <?php echo $b; ?> là: <?php echo $difference; ?></p>
-            <p>Tích của <?php echo $a; ?> và <?php echo $b; ?> là: <?php echo $product; ?></p>
-            <p>Thương của <?php echo $a; ?> và <?php echo $b; ?> là: <?php echo $quotient; ?></p>
+            <p>Kết quả tính toán:</p>
+            <?php if ($tong !== ''): ?>
+                <p>Tổng của <?php echo $a; ?> và <?php echo $b; ?> là: <?php echo $tong; ?></p>
+            <?php endif; ?>
+            <?php if ($hieu !== ''): ?>
+                <p>Hiệu của <?php echo $a; ?> và <?php echo $b; ?> là: <?php echo $hieu; ?></p>
+            <?php endif; ?>
+            <?php if ($tich !== ''): ?>
+                <p>Tích của <?php echo $a; ?> và <?php echo $b; ?> là: <?php echo $tich; ?></p>
+            <?php endif; ?>
+            <?php if ($thuong !== ''): ?>
+                <p>Thương của <?php echo $a; ?> và <?php echo $b; ?> là: <?php echo $thuong; ?></p>
+            <?php endif; ?>
         </div>
         
-        <div class="result">
-            <h2>Kiểm tra số nguyên tố:</h2>
-            <p><?php echo $a; ?> <?php echo $aIsPrime ? "là số nguyên tố." : "không phải là số nguyên tố."; ?></p>
-            <p><?php echo $b; ?> <?php echo $bIsPrime ? "là số nguyên tố." : "không phải là số nguyên tố."; ?></p>
-        </div>
+        <!-- Phần kiểm tra số -->
+        <form method="POST" action="">
+            <h2>Kiểm tra số</h2>
+            <label for="number_to_check">Nhập số để kiểm tra:</label>
+            <input type="number" id="number_to_check" name="number_to_check" value="<?php echo isset($numberToCheck) ? $numberToCheck : ''; ?>" required>
+            
+            <fieldset>
+                <legend>Chọn loại kiểm tra:</legend>
+                <input type="radio" id="check_Chan_Le" name="check_type" value="Chan_Le" <?php echo isset($_POST['check_type']) && $_POST['check_type'] == 'Chan_Le' ? 'checked' : ''; ?>>
+                <label for="check_Chan_Le">Kiểm tra số chẵn lẻ</label><br>
+                <input type="radio" id="check_NTo" name="check_type" value="NTo" <?php echo isset($_POST['check_type']) && $_POST['check_type'] == 'soNTo' ? 'checked' : ''; ?>>
+                <label for="check_NTo">Kiểm tra số nguyên tố</label>
+            </fieldset>
+
+            <button type="submit" name="check">Kiểm tra</button>
+        </form>
 
         <div class="result">
-            <h2>Kiểm tra số chẵn lẻ:</h2>
-            <p><?php echo $a; ?> <?php echo $aIsEven ? "là số chẵn." : "là số lẻ."; ?></p>
-            <p><?php echo $b; ?> <?php echo $bIsEven ? "là số chẵn." : "là số lẻ."; ?></p>
+            <p>Kết quả kiểm tra số:</p>
+            <?php if (isset($_POST['check'])): ?>
+                <?php if ($checkType == 'Chan_Le'): ?>
+                    <p><?php echo $numberToCheck; ?> <?php echo ktraChanLe($numberToCheck) ? "là số chẵn." : "là số lẻ."; ?></p>
+                <?php elseif ($checkType == 'soNTo'): ?>
+                    <p><?php echo $numberToCheck; ?> <?php echo ktraSoNTo($numberToCheck) ? "là số nguyên tố." : "không phải là số nguyên tố."; ?></p>
+                <?php endif; ?>
+            <?php endif; ?>
         </div>
     </div>
     <div class="return-home">
