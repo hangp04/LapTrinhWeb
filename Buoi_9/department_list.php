@@ -1,0 +1,47 @@
+<?php
+ require_once 'index.php';
+ require_once 'libs/departments.php';
+$department = get_all_department();
+disconnect_db();
+?>
+ 
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Danh sách phòng ban</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <style>
+        .add-button {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+    </style>
+    <body>
+        <h1>Danh sách phòng ban</h1>
+        <a href="department_add.php" class="add-button">Thêm phòng ban</a> <br/> <br/>
+        <table width="100%" border="1" cellspacing="0" cellpadding="10">
+            <tr>
+                <td><b>Department name</b></td>
+                <td>Chọn thao tác</td>
+            </tr>
+            <?php foreach ($department as $item){ ?>
+            <tr>
+                <td><?php echo $item['department_name']; ?></td>
+                <td>
+                    <form method="post" action="department_delete.php">
+                        <input onclick="window.location = 'department_edit.php?id=<?php echo $item['department_id']; ?>'" type="button" value="Sửa"/>
+                        <input type="hidden" name="id" value="<?php echo $item['department_id']; ?>"/>
+                        <input onclick="return confirm('Bạn có chắc muốn xóa không?');" type="submit" name="delete" value="Xóa"/>
+                    </form>
+                </td>
+            </tr>
+            <?php } ?>
+        </table>
+    </body>
+</html>
